@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import csv
 
-def load_sio_pupils(file_path):
+def load_sio_pupils(file_path: str) -> pd.DataFrame:
     with open(file_path, 'r') as f:
         input = csv.reader(f,delimiter=';')
         data = np.array(list(input))[1:]
@@ -12,11 +12,11 @@ def load_sio_pupils(file_path):
         return pd.DataFrame(gminne_szkoly_podstawowe,columns=data[0])
 
 
-def load_sio_teachers(file_path):
+def load_sio_teachers(file_path: str) -> pd.DataFrame:
     with open(file_path, 'r') as f:
         input = csv.reader(f,delimiter=';')
         teachers = np.array(list(input))[5:][:2]
         return pd.DataFrame(teachers[1:],columns=teachers[0])
 
-print(load_sio_teachers('Kutno_HackSQL/SIO 30.09.2021_Nauczyciele.csv'))
-print(load_sio_pupils('Kutno_HackSQL/SIO 30.09.2021.csv'))
+# print(load_sio_teachers('Kutno_HackSQL/SIO 30.09.2021_Nauczyciele.csv'))
+# print(load_sio_pupils('Kutno_HackSQL/SIO 30.09.2021.csv'))
