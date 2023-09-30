@@ -1,9 +1,8 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout
 
-import input_processors.read_SIO as rs
+import input_processors.sio_reports_processor as srp
 import input_processors.financial_reports_processor as frp
-
 if __name__ == '__main__':    
     app = QApplication(sys.argv)
     w = QWidget()    
@@ -16,3 +15,4 @@ if __name__ == '__main__':
     w.setWindowTitle('Simple')
     w.show()
     sys.exit(app.exec_())
+
