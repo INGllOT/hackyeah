@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout
 
-import input_processors.read_SIO as rs
+import input_processors.sio_reports_processor as srp
 import input_processors.financial_reports_processor as frp
 
 pupils = rs.load_sio_pupils('Kutno_HackSQL/SIO 30.09.2021.csv')
