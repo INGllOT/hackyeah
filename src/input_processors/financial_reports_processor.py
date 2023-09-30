@@ -18,7 +18,15 @@ term_map_27s = {
 }
 
 term_map_28s = {
-    
+    'pl': 'Plan',
+    'za': 'Zaangażowanie',
+    'ww': 'Wydatki wykonane',
+    'zo': 'Zobowiązania ogółem',
+    'zw': '',
+    'wn': '',
+    'lu': '',
+    'rb': '',
+    'wfs': 'Wydatki zrealizowane w ramach funduszu sołeckiego',
 }
 
 def _xml_to_record(input_data: str):
