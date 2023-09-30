@@ -3,6 +3,24 @@ from lxml import etree
 import os
 
 
+term_map_27s = {
+    'pl': 'Planowane',
+    'na': 'Należności',
+    'po': 'Potrącenia',
+    'dw': 'Dochody Wykonane',
+    'no': 'Należności pozostałe do zapłaty ogółem',
+    'nz': 'Należne zaległości netto',
+    'np': 'Nadpłaty',
+    'so': 'Skutki obniżenia górnych stawek podatków obliczone za okres sprawozdawczy',
+    'su': 'Skutki udzielonych ulg i zwolnień obliczone za okres sprawozdawczy',
+    'uz': 'Umożenie zaległości podatkowych',
+    'ot': 'Rozłożenie na raty, odłożenie terminu płatności, zwolnienie z obowiązku pobrania, ograniczenie poboru',
+}
+
+term_map_28s = {
+    
+}
+
 def _xml_to_record(input_data: str):
     reports = []
     root = etree.fromstring(input_data)
