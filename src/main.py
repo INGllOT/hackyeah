@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QTextEdit,
     QLabel,
+    QGridLayout,
 )
 
 import input_processors.sio_reports_processor as srp
@@ -40,16 +41,14 @@ class SchoolRecord(QWidget):
         super().__init__()
 
         self.label1 = QLabel(school.school_name)
-        self.label1.setText(school.school_name)
-
         self.label2 = QLabel(school.regon)
-        self.label2.setText(school.regon)
+        self.label3 = QLabel(str(school.get_spending_per_pupil(2022)))
 
-        layout = QHBoxLayout()
+        layout = QGridLayout()
         self.setLayout(layout)
-
-        layout.addWidget(self.label1)
-        layout.addWidget(self.label2)
+        layout.addWidget(self.label1, 0, 0, 1, 2)
+        layout.addWidget(self.label2, 0, 1, 1, 2)
+        layout.addWidget(self.label3, 0, 2, 1, 2)
 
 
 class MyApp(QWidget):
@@ -126,7 +125,8 @@ class MyApp(QWidget):
             school = School(rspo, regon, data)
             self.all_schools.append(school)
             self.current_schools.append(school)
-            school.get_spending_per_pupil(2022)
+            # school.get_spending_per_pupil(2022)
+
     def set_current_schools(self, schools):
         self.current_schools = schools
         self.update()
