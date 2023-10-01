@@ -44,20 +44,19 @@ class SchoolRecord(QWidget):
         super().__init__()
 
         self.label1 = QLabel(school.school_name)
-        self.label1.setText(school.school_name)
-
         self.label2 = QLabel("Regon: " + school.regon)
-        self.label2.setText("Regon: " + school.regon)
-
         spending_per_pupil = "{:.2f}PLN".format(school.get_spending_per_pupil(2022))
-        self.label3 = QLabel("Spending per pupil: " + spending_per_pupil)
-        self.label3.setText("Spending per pupil:" + spending_per_pupil)
+        self.label3 = QLabel("Wydatki na ucznia: " + spending_per_pupil)
+
+        total_pupils = "{:.2f}".format(school.get_total_weighted_pupils_for_year(2022))
+        self.label4 = QLabel("Liczba uczniów (ważona): " + total_pupils)
 
         layout = QGridLayout()
         self.setLayout(layout)
         layout.addWidget(self.label1, 0, 0, 1, 3)
         layout.addWidget(self.label2, 0, 3, 1, 2)
         layout.addWidget(self.label3, 0, 5, 1, 2)
+        layout.addWidget(self.label4, 0, 7, 1, 2)
 
 
 class MyApp(QWidget):

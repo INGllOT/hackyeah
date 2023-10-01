@@ -6,6 +6,11 @@
 2. . Activate it: `source venv/bin/activate`
 3. install dependencies `pip3 install -r requirements.txt`
 
+## Run
+
+1. `cd src`
+2. `python3 main.py`
+
 ## Useful URLs
 
 * <https://api-rspo.mein.gov.pl/api/>
