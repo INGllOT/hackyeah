@@ -48,7 +48,7 @@ def _xml_to_record(input_data: str):
             unit_data = {}
 
             for field in unit:
-                unit_data[field.tag] = field.text
+                unit_data[field.tag] = field.text.strip()
 
             header = sprawozdanie.find(".//Naglowek")
             header_version = header.find(".//Wersja").text
