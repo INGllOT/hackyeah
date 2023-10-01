@@ -46,8 +46,6 @@ class SchoolRecord(QWidget):
         self.label1 = QLabel(school.school_name)
         self.label1.setText(school.school_name)
 
-
-
         self.label2 = QLabel("Regon: " + school.regon)
         self.label2.setText("Regon: " + school.regon)
 
@@ -144,14 +142,20 @@ class MyApp(QWidget):
 
     def filter_schools(self):
         schools = self.all_schools.copy()
-        if(self.widget1.text() != ""):
+        if self.widget1.text() != "":
             schools = filter(lambda x: x.school_name == self.widget1.text(), schools)
-        if(self.widget2.text() != ""):
+        if self.widget2.text() != "":
             schools = filter(lambda x: x.regon == self.widget2.text(), schools)
-        if(self.widget3.text() != ""):
-            schools = filter(lambda x: x.get_total_pupils_for_year(2022) >= int(self.widget3.text()), schools)
-        if(self.widget4.text() != ""):
-            schools = filter(lambda x: x.get_total_pupils_for_year(2022) <= int(self.widget4.text()), schools)
+        if self.widget3.text() != "":
+            schools = filter(
+                lambda x: x.get_total_pupils_for_year(2022) >= int(self.widget3.text()),
+                schools,
+            )
+        if self.widget4.text() != "":
+            schools = filter(
+                lambda x: x.get_total_pupils_for_year(2022) <= int(self.widget4.text()),
+                schools,
+            )
         self.current_schools = schools
 
         layout = QVBoxLayout()
@@ -161,7 +165,6 @@ class MyApp(QWidget):
         for school in self.current_schools:
             school_widget = SchoolRecord(school)
             layout.addWidget(school_widget)
-
 
 
 if __name__ == "__main__":
