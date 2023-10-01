@@ -35,6 +35,9 @@ class TextInput(QWidget):
         layout.addWidget(self.label)
         layout.addWidget(self.text_edit)
 
+    def text(self):
+        return self.text_edit.toPlainText()
+
 
 class SchoolRecord(QWidget):
     def __init__(self, school):
@@ -68,7 +71,7 @@ class MyApp(QWidget):
         self.setup()
 
     def setup(self):
-        self.resize(1200, 800)
+        self.resize(1900, 800)
         self.move(300, 100)
         self.setWindowTitle("")
 
@@ -79,9 +82,9 @@ class MyApp(QWidget):
         layout.addWidget(left_menu)
         left_menu.setFixedSize(300, 800)
 
-        right_page = self.right_page()
-        layout.addWidget(right_page)
-        right_page.setFixedSize(900, 800)
+        self.right_page = self.right_page()
+        layout.addWidget(self.right_page)
+        self.right_page.setFixedSize(1500, 800)
 
         self.show()
 
@@ -101,20 +104,21 @@ class MyApp(QWidget):
         layout = QVBoxLayout()
         widget.setLayout(layout)
 
-        widget1 = TextInput("Nazwa szkoły", "Wpisz nazwę szkoły")
-        layout.addWidget(widget1)
+        self.widget1 = TextInput("Nazwa szkoły", "Wpisz nazwę szkoły")
+        layout.addWidget(self.widget1)
 
-        widget2 = TextInput("REGON", "Wpisz REGON")
-        layout.addWidget(widget2)
+        self.widget2 = TextInput("REGON", "Wpisz REGON")
+        layout.addWidget(self.widget2)
 
-        widget3 = TextInput("Minimalna liczba uczniów", "20")
-        layout.addWidget(widget3)
+        self.widget3 = TextInput("Minimalna liczba uczniów", "20")
+        layout.addWidget(self.widget3)
 
-        widget4 = TextInput("Maksymalna liczba uczniów", "1000")
-        layout.addWidget(widget4)
+        self.widget4 = TextInput("Maksymalna liczba uczniów", "1000")
+        layout.addWidget(self.widget4)
 
         submit_button = QPushButton("Wyszukaj")
         submit_button.setFixedHeight(30)
+        submit_button.clicked.connect(self.filter_schools)
         layout.addWidget(submit_button)
 
         return widget
@@ -133,11 +137,32 @@ class MyApp(QWidget):
             school = School(rspo, regon, data)
             self.all_schools.append(school)
             self.current_schools.append(school)
-            # school.get_spending_per_pupil(2022)
 
     def set_current_schools(self, schools):
         self.current_schools = schools
         self.update()
+
+    def filter_schools(self):
+        schools = self.all_schools.copy()
+        if(self.widget1.text() != ""):
+            filter(lambda x: x.school_name == self.widget1.text(), schools)
+        if(self.widget2.text() != ""):
+            filter(lambda x: x.regon == self.widget2.text(), schools)
+        if(self.widget3.text() != ""):
+            filter(lambda x: x.get_total_pupils_for_year(2022) >= int(self.widget3.text()), schools)
+        if(self.widget4.text() != ""):
+            filter(lambda x: x.get_total_pupils_for_year(2022) <= int(self.widget4.text()), schools)
+        self.right_page
+        self.current_schools = schools
+
+        layout = QVBoxLayout()
+        QWidget().setLayout(self.right_page.layout())
+        self.right_page.setLayout(layout)
+
+        for school in self.current_schools:
+            school_widget = SchoolRecord(school)
+            layout.addWidget(school_widget)
+
 
 
 if __name__ == "__main__":

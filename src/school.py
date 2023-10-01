@@ -20,7 +20,7 @@ class School:
 
     def get_spending_per_pupil(self, year):
         total_spent = self._get_spending_for_year(year)
-        total_pupils = self._get_total_pupils_for_year(year)
+        total_pupils = self.get_total_pupils_for_year(year)
         return total_spent / total_pupils
 
     def _get_spending_for_year(self, year):
@@ -42,7 +42,7 @@ class School:
                 sum += float(x)
         return sum
 
-    def _get_total_pupils_for_year(self, year):
+    def get_total_pupils_for_year(self, year):
         data = self.uczniowie[self.uczniowie["Year"] == year]
         sum = 0.0
         for key, value in weights.items():
