@@ -143,7 +143,7 @@ class MyApp(QWidget):
     def filter_schools(self):
         schools = self.all_schools.copy()
         if self.widget1.text() != "":
-            schools = filter(lambda x: x.school_name == self.widget1.text(), schools)
+            schools = filter(lambda x: self.widget1.text().lower() in x.school_name.lower(), schools)
         if self.widget2.text() != "":
             schools = filter(lambda x: x.regon == self.widget2.text(), schools)
         if self.widget3.text() != "":
