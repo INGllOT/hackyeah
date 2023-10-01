@@ -145,14 +145,13 @@ class MyApp(QWidget):
     def filter_schools(self):
         schools = self.all_schools.copy()
         if(self.widget1.text() != ""):
-            filter(lambda x: x.school_name == self.widget1.text(), schools)
+            schools = filter(lambda x: x.school_name == self.widget1.text(), schools)
         if(self.widget2.text() != ""):
-            filter(lambda x: x.regon == self.widget2.text(), schools)
+            schools = filter(lambda x: x.regon == self.widget2.text(), schools)
         if(self.widget3.text() != ""):
-            filter(lambda x: x.get_total_pupils_for_year(2022) >= int(self.widget3.text()), schools)
+            schools = filter(lambda x: x.get_total_pupils_for_year(2022) >= int(self.widget3.text()), schools)
         if(self.widget4.text() != ""):
-            filter(lambda x: x.get_total_pupils_for_year(2022) <= int(self.widget4.text()), schools)
-        self.right_page
+            schools = filter(lambda x: x.get_total_pupils_for_year(2022) <= int(self.widget4.text()), schools)
         self.current_schools = schools
 
         layout = QVBoxLayout()
