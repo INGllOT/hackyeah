@@ -1,5 +1,13 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QTextEdit, QLabel
+from PyQt5.QtWidgets import (
+    QApplication,
+    QWidget,
+    QPushButton,
+    QHBoxLayout,
+    QVBoxLayout,
+    QTextEdit,
+    QLabel,
+)
 
 import input_processors.sio_reports_processor as srp
 import input_processors.financial_reports_processor as frp
@@ -8,21 +16,24 @@ from school import School
 
 import finance.fin_proc as fp
 
-def do():
+
+def on_submit():
+    print("submit")
     data = {
-    'pupils_data': srp.load_sio_pupils('../Kutno_HackSQL/SIO 30.09.2021.csv'),
-    'exam_data': erp.load_exam('../Kutno_HackSQL/Wyniki_E8_szkoly_2023.xlsx'),
-    'financial_reports': frp.process_files_in_directory('../Kutno_HackSQL')}
+        "pupils_data": srp.load_sio_pupils("../Kutno_HackSQL/SIO 30.09.2021.csv"),
+        "exam_data": erp.load_exam("../Kutno_HackSQL/Wyniki_E8_szkoly_2023.xlsx"),
+        "financial_reports": frp.process_files_in_directory("../Kutno_HackSQL"),
+    }
 
     schools = []
-    for indc in data['pupils_data'].index:
-        rspo = data['pupils_data']['Numer RSPO'][indc]
-        regon = data['pupils_data']['REGON'][indc]
-        school = School(rspo,regon,data)
+    for indc in data["pupils_data"].index:
+        rspo = data["pupils_data"]["Numer RSPO"][indc]
+        regon = data["pupils_data"]["REGON"][indc]
+        school = School(rspo, regon, data)
         schools.append(school)
 
+    print("submit end")
 
-    schools[0].print()
 
 class TextInput(QWidget):
     def __init__(self, label_text, placeholder_text):
@@ -31,9 +42,26 @@ class TextInput(QWidget):
         self.label = QLabel(label_text)
         self.label.setText(label_text)
 
-        self.text_edit = QTextEdit()  
+        self.text_edit = QTextEdit()
         self.text_edit.setPlaceholderText(placeholder_text)
         self.text_edit.setFixedHeight(30)
+
+        layout = QHBoxLayout()
+        self.setLayout(layout)
+
+        layout.addWidget(self.label)
+        layout.addWidget(self.text_edit)
+
+
+class SchoolRecord(QWidget):
+    def __init__(self, school):
+        super().__init__()
+
+        self.label = QLabel(school.name)
+        self.label.setText(school.name)
+
+        self.label = QLabel(school.regon)
+        self.label.setText(school.regon)
 
         layout = QHBoxLayout()
         self.setLayout(layout)
@@ -53,8 +81,26 @@ def left_menu_def():
     widget2 = TextInput("REGON", "Wpisz REGON")
     layout.addWidget(widget2)
 
+    widget3 = TextInput("Minimalna liczba uczniów", "20")
+    layout.addWidget(widget3)
+
+    widget4 = TextInput("Maksymalna liczba uczniów", "1000")
+    layout.addWidget(widget4)
+
+    submit_button = QPushButton("Wyślij")
+    submit_button.setFixedHeight(30)
+    layout.addWidget(submit_button)
+    submit_button.clicked.connect(on_submit)
+
     return widget
 
+
+def right_page_def():
+    widget = QWidget()
+    layout = QVBoxLayout()
+    widget.setLayout(layout)
+
+    return widget
 
 
 if __name__ == "__main__":
@@ -71,7 +117,7 @@ if __name__ == "__main__":
     layout.addWidget(left_menu)
     left_menu.setFixedSize(300, 800)
 
-    right_page = QWidget()
+    right_page = right_page_def()
     layout.addWidget(right_page)
     right_page.setFixedSize(900, 800)
 
@@ -82,11 +128,10 @@ if __name__ == "__main__":
     sys.exit(app.exec_())
 
 
-# print(financial_reports)
-# dp = fp.get_dochodowe_paragraphs()
-# wp = fp.get_wydatkowe_paragraphs()
+class MyApp(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setup()
 
-# print(set(dp.keys()).intersection(set(wp.keys())))
-
-# print(dp['256'])
-# print(wp['256'])
+    def setup(self):
+        pass
