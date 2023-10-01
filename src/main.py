@@ -17,24 +17,6 @@ from school import School
 import finance.fin_proc as fp
 
 
-def on_submit():
-    print("submit")
-    data = {
-        "pupils_data": srp.load_sio_pupils("../Kutno_HackSQL/SIO 30.09.2021.csv"),
-        "exam_data": erp.load_exam("../Kutno_HackSQL/Wyniki_E8_szkoly_2023.xlsx"),
-        "financial_reports": frp.process_files_in_directory("../Kutno_HackSQL"),
-    }
-
-    schools = []
-    for indc in data["pupils_data"].index:
-        rspo = data["pupils_data"]["Numer RSPO"][indc]
-        regon = data["pupils_data"]["REGON"][indc]
-        school = School(rspo, regon, data)
-        schools.append(school)
-
-    print("submit end")
-
-
 class TextInput(QWidget):
     def __init__(self, label_text, placeholder_text):
         super().__init__()
@@ -70,39 +52,6 @@ class SchoolRecord(QWidget):
         layout.addWidget(self.label2)
 
 
-def left_menu_def():
-    widget = QWidget()
-    layout = QVBoxLayout()
-    widget.setLayout(layout)
-
-    widget1 = TextInput("Nazwa szkoły", "Wpisz nazwę szkoły")
-    layout.addWidget(widget1)
-
-    widget2 = TextInput("REGON", "Wpisz REGON")
-    layout.addWidget(widget2)
-
-    widget3 = TextInput("Minimalna liczba uczniów", "20")
-    layout.addWidget(widget3)
-
-    widget4 = TextInput("Maksymalna liczba uczniów", "1000")
-    layout.addWidget(widget4)
-
-    submit_button = QPushButton("Wyślij")
-    submit_button.setFixedHeight(30)
-    layout.addWidget(submit_button)
-    submit_button.clicked.connect(on_submit)
-
-    return widget
-
-
-def right_page_def():
-    widget = QWidget()
-    layout = QVBoxLayout()
-    widget.setLayout(layout)
-
-    return widget
-
-
 class MyApp(QWidget):
     def __init__(self):
         super().__init__()
@@ -118,8 +67,8 @@ class MyApp(QWidget):
 
         layout = QHBoxLayout()
         self.setLayout(layout)
-        
-        left_menu = left_menu_def()
+
+        left_menu = self.left_page()
         layout.addWidget(left_menu)
         left_menu.setFixedSize(300, 800)
 
@@ -139,7 +88,30 @@ class MyApp(QWidget):
             layout.addWidget(school_widget)
 
         return widget
-    
+
+    def left_page(self):
+        widget = QWidget()
+        layout = QVBoxLayout()
+        widget.setLayout(layout)
+
+        widget1 = TextInput("Nazwa szkoły", "Wpisz nazwę szkoły")
+        layout.addWidget(widget1)
+
+        widget2 = TextInput("REGON", "Wpisz REGON")
+        layout.addWidget(widget2)
+
+        widget3 = TextInput("Minimalna liczba uczniów", "20")
+        layout.addWidget(widget3)
+
+        widget4 = TextInput("Maksymalna liczba uczniów", "1000")
+        layout.addWidget(widget4)
+
+        submit_button = QPushButton("Wyszukaj")
+        submit_button.setFixedHeight(30)
+        layout.addWidget(submit_button)
+
+        return widget
+
     def init_schools(self):
         data = {
             "pupils_data": srp.load_sio_pupils("../Kutno_HackSQL/SIO 30.09.2021.csv"),
@@ -155,7 +127,9 @@ class MyApp(QWidget):
             self.all_schools.append(school)
             self.current_schools.append(school)
 
-    
+    def set_current_schools(self, schools):
+        self.current_schools = schools
+        self.update()
 
 
 if __name__ == "__main__":

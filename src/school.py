@@ -17,7 +17,6 @@ class School:
         self.uczniowie = self._filter_by(sources['pupils_data'],'Numer RSPO')
         self.school_name = self.uczniowie['Nazwa szkoły/placówki'].iloc[0]
         
-        # print(list(self.uczniowie.columns))
 
 
     def _filter_by(self,data: pd.DataFrame,key_name):
