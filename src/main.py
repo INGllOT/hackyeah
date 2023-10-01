@@ -55,9 +55,9 @@ class SchoolRecord(QWidget):
 
         layout = QGridLayout()
         self.setLayout(layout)
-        layout.addWidget(self.label1, 0, 0, 1, 2)
-        layout.addWidget(self.label2, 0, 1, 1, 2)
-        layout.addWidget(self.label3, 0, 2, 1, 2)
+        layout.addWidget(self.label1, 0, 0, 1, 3)
+        layout.addWidget(self.label2, 0, 3, 1, 2)
+        layout.addWidget(self.label3, 0, 5, 1, 2)
 
 
 class MyApp(QWidget):
