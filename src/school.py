@@ -28,7 +28,7 @@ class School:
     def get_spending_per_pupil(self,year):
         total_spent = self._get_spending_for_year(year)
         total_pupils = self._get_total_pupils_for_year(year)
-        print(total_spent/total_pupils)
+        return total_spent/total_pupils
 
     def _get_spending_for_year(self,year):
         data = self.fin_raporty[self.fin_raporty['report_type'] == "Rb-28s"]
