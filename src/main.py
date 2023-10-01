@@ -57,17 +57,17 @@ class SchoolRecord(QWidget):
     def __init__(self, school):
         super().__init__()
 
-        self.label = QLabel(school.name)
-        self.label.setText(school.name)
+        self.label1 = QLabel(school.school_name)
+        self.label1.setText(school.school_name)
 
-        self.label = QLabel(school.regon)
-        self.label.setText(school.regon)
+        self.label2 = QLabel(school.regon)
+        self.label2.setText(school.regon)
 
         layout = QHBoxLayout()
         self.setLayout(layout)
 
-        layout.addWidget(self.label)
-        layout.addWidget(self.text_edit)
+        layout.addWidget(self.label1)
+        layout.addWidget(self.label2)
 
 
 def left_menu_def():
@@ -103,35 +103,62 @@ def right_page_def():
     return widget
 
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    w = QWidget()
-    w.resize(1200, 800)
-    w.move(300, 100)
-    w.setWindowTitle("")
-
-    layout = QHBoxLayout()
-    w.setLayout(layout)
-
-    left_menu = left_menu_def()
-    layout.addWidget(left_menu)
-    left_menu.setFixedSize(300, 800)
-
-    right_page = right_page_def()
-    layout.addWidget(right_page)
-    right_page.setFixedSize(900, 800)
-
-    # btn = QPushButton("Hello World!")
-    # layout.addWidget(btn)
-
-    w.show()
-    sys.exit(app.exec_())
-
-
 class MyApp(QWidget):
     def __init__(self):
         super().__init__()
+        self.all_schools = []
+        self.current_schools = []
+        self.init_schools()
         self.setup()
 
     def setup(self):
-        pass
+        self.resize(1200, 800)
+        self.move(300, 100)
+        self.setWindowTitle("")
+
+        layout = QHBoxLayout()
+        self.setLayout(layout)
+        
+        left_menu = left_menu_def()
+        layout.addWidget(left_menu)
+        left_menu.setFixedSize(300, 800)
+
+        right_page = self.right_page()
+        layout.addWidget(right_page)
+        right_page.setFixedSize(900, 800)
+
+        self.show()
+
+    def right_page(self):
+        widget = QWidget()
+        layout = QVBoxLayout()
+        widget.setLayout(layout)
+
+        for school in self.current_schools:
+            school_widget = SchoolRecord(school)
+            layout.addWidget(school_widget)
+
+        return widget
+    
+    def init_schools(self):
+        data = {
+            "pupils_data": srp.load_sio_pupils("../Kutno_HackSQL/SIO 30.09.2021.csv"),
+            "exam_data": erp.load_exam("../Kutno_HackSQL/Wyniki_E8_szkoly_2023.xlsx"),
+            "financial_reports": frp.process_files_in_directory("../Kutno_HackSQL"),
+        }
+        self.all_schools = []
+        self.current_schools = []
+        for indc in data["pupils_data"].index:
+            rspo = data["pupils_data"]["Numer RSPO"][indc]
+            regon = data["pupils_data"]["REGON"][indc]
+            school = School(rspo, regon, data)
+            self.all_schools.append(school)
+            self.current_schools.append(school)
+
+    
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    w = MyApp()
+    sys.exit(app.exec_())
