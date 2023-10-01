@@ -60,14 +60,21 @@ class SchoolRecord(QWidget):
         self.label1 = QLabel(school.school_name)
         self.label1.setText(school.school_name)
 
-        self.label2 = QLabel(school.regon)
-        self.label2.setText(school.regon)
+
+
+        self.label2 = QLabel("Regon: " + school.regon)
+        self.label2.setText("Regon: " + school.regon)
+
+        spending_per_pupil = "{:.2f}PLN".format(school.get_spending_per_pupil(2022))
+        self.label3 = QLabel("Spending per pupil: " + spending_per_pupil)
+        self.label3.setText("Spending per pupil:" + spending_per_pupil)
 
         layout = QHBoxLayout()
         self.setLayout(layout)
 
         layout.addWidget(self.label1)
         layout.addWidget(self.label2)
+        layout.addWidget(self.label3)
 
 
 def left_menu_def():
