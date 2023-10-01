@@ -20,8 +20,8 @@ import finance.fin_proc as fp
 def on_submit():
     print("submit")
     data = {
-        "pupils_data": srp.load_sio_pupils("../Kutno_HackSQL/SIO 30.09.2021.csv"),
-        "exam_data": erp.load_exam("../Kutno_HackSQL/Wyniki_E8_szkoly_2023.xlsx"),
+        "pupils_data": srp.process_files_in_directory("../Kutno_HackSQL"),
+        "exam_data": erp.process_files_in_directory("../Kutno_HackSQL"),
         "financial_reports": frp.process_files_in_directory("../Kutno_HackSQL"),
     }
 
@@ -142,8 +142,8 @@ class MyApp(QWidget):
     
     def init_schools(self):
         data = {
-            "pupils_data": srp.load_sio_pupils("../Kutno_HackSQL/SIO 30.09.2021.csv"),
-            "exam_data": erp.load_exam("../Kutno_HackSQL/Wyniki_E8_szkoly_2023.xlsx"),
+            "pupils_data": srp.process_files_in_directory("../Kutno_HackSQL"),
+            "exam_data": erp.process_files_in_directory("../Kutno_HackSQL"),
             "financial_reports": frp.process_files_in_directory("../Kutno_HackSQL"),
         }
         self.all_schools = []
@@ -154,7 +154,7 @@ class MyApp(QWidget):
             school = School(rspo, regon, data)
             self.all_schools.append(school)
             self.current_schools.append(school)
-
+            school.get_spending_per_pupil(2022)
     
 
 
